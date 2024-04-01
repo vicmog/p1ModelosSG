@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
 class Barrido extends THREE.Object3D {
-    constructor(gui, guiTitle,shape) {
+    constructor(gui, guiTitle,shape,path) {
         super();
         this.shape = shape;
+        this.path = path;
         this.material = new THREE.MeshNormalMaterial();
         this.createGui(gui,guiTitle);
         this.barridoGeometria = this.createBarrido(this.shape);
@@ -18,7 +19,8 @@ class Barrido extends THREE.Object3D {
             {
                 steps: this.guiControls.steps,
                 depth: this.guiControls.depth,
-                bevelEnabled: this.guiControls.bevelEnabled
+                bevelEnabled: this.guiControls.bevelEnabled,
+                extrudePath: this.path
             }
         );
     }
@@ -26,14 +28,14 @@ class Barrido extends THREE.Object3D {
 
     createGui(gui,guiTitle) {
         this.guiControls={
-            steps: 1,
-            depth: 0.1,
-            bevelEnabled: true
+            steps: 10,
+            depth: 0.01,
+            bevelEnabled: false
         };
 
         this.gui = gui.addFolder(guiTitle);
         this.gui.add(this.guiControls,'steps',1,10,1).name('Steps: ').onChange(() => this.updateGeometry());
-        this.gui.add(this.guiControls,'depth',0.1,2,0.01).name('Depth: ').onChange(() => this.updateGeometry());
+        this.gui.add(this.guiControls,'depth',0.01,2,0.01).name('Depth: ').onChange(() => this.updateGeometry());
         this.gui.add(this.guiControls,'bevelEnabled').name('Bevel Enabled: ').onChange(() => this.updateGeometry());
 
     }

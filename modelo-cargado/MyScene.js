@@ -5,10 +5,10 @@
 import * as THREE from '../libs/three.module.js'
 import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
+import { ModeloCargado } from './ModeloCargado.js';
 
 // Clases de mi proyecto
-import { Barrido } from './Barrido.js';
-import { Shape } from './Shape.js';
+
 
 
  
@@ -51,33 +51,9 @@ class MyScene extends THREE.Scene {
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
 
+
   
-
-    
-    const shape = new THREE.Shape();
-
-    shape.moveTo( 0,0 );
-    shape.lineTo( 0, 0.05 );
-    shape.lineTo( 0.05, 0.05 );
-    shape.lineTo( 0.05, 0 );
-    shape.lineTo( 0, 0 );
-
-    //mi figura
-    /*shape.moveTo( 0 ,0.0111);
-    shape.lineTo(0.1, 0.1);
-    shape.quadraticCurveTo(0.22,0.2 ,0.1, 0.3);
-    shape.lineTo(0, 0.3999);*/
-    
-    var pts = [
-      new THREE.Vector3( 0, 0, 0 ),
-      new THREE.Vector3( 0.1, 0.1, 0.1 ),
-      new THREE.Vector3( 0.3, 0.2, 0.2 )
-    ];
-    var path = new THREE.CatmullRomCurve3(pts) ;
-    this.shape = new Shape(shape);
-    //this.add(this.shape);
-
-    this.objetoBarrido = new Barrido(this.gui,'Objeto de Barrido',shape,path);
+    this.objCargado = new ModeloCargado('./../models/porsche911/911.mtl','./../models/porsche911/Porsche_911_GT2.obj');
     this.add(this.objetoBarrido);
 
 
@@ -244,7 +220,7 @@ class MyScene extends THREE.Scene {
     this.cameraControl.update();
     
     // Se actualiza el resto del modelo
-    this.objetoBarrido.update();
+    this.objCargado.update();
     
     // Este método debe ser llamado cada vez que queramos visualizar la escena de nuevo.
     // Literalmente le decimos al navegador: "La próxima vez que haya que refrescar la pantalla, llama al método que te indico".
