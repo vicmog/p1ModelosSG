@@ -5,10 +5,15 @@
 import * as THREE from '../libs/three.module.js'
 import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
+import { Auricular } from './Auricular.js'
+import { Tuerca } from './Tuerca.js';
+import { Taza } from './Taza.js';
+import { Tanque } from './Tanque.js';
+import { Bomba } from './Bomba.js';
+import { Cascos } from './Cascos.js';
+import { Cohete } from './Cohete.js';
+import { Objeto1 } from './Objeto1.js';
 
-// Clases de mi proyecto
-import { Barrido } from './Barrido.js';
-import { Shape } from './Shape.js';
 
 
  
@@ -43,47 +48,21 @@ class MyScene extends THREE.Scene {
     
     // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas
     // Todas las unidades están en metros
-    this.axis = new THREE.AxesHelper (0.1);
+    this.axis = new THREE.AxesHelper (5);
     this.add (this.axis);
-    
-    
-    // Por último creamos el modelo.
-    // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
-    // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
 
-  
+ 
 
-    
-    const shape = new THREE.Shape();
-
-    /*shape.moveTo( 0,0 );
-    shape.lineTo( 0, 0.05 );
-    shape.lineTo( 0.05, 0.05 );
-    shape.lineTo( 0.05, 0 );
-    shape.lineTo( 0, 0 );*/
-
-    //mi figura
-    shape.moveTo( 0 ,0.0111);
-    shape.lineTo(0.1, 0.1);
-    shape.quadraticCurveTo(0.22,0.2 ,0.1, 0.3);
-    shape.lineTo(0, 0.3999);
-    
-    var path = new THREE.CatmullRomCurve3([
-      new THREE.Vector3( 0, 0, 0 ),
-      new THREE.Vector3( 0, 0.1, 0 ),
-      new THREE.Vector3( 0.05, 0.15, 0 ),
-      new THREE.Vector3( 0.1, 0.2, 0 ),
-    ]) ;
-
-
-    this.shape = new Shape(shape);
-    //this.add(this.shape);
-
-    this.objetoBarrido = new Barrido(this.gui,'Objeto de Barrido',shape,path);
-    this.add(this.objetoBarrido);
-
-
-
+    this.tanque = new Tanque();
+    //this.add(this.tanque);
+    this.bomba = new Bomba();
+    //this.add(this.bomba);
+    this.cascos = new Cascos();
+    //this.add(this.cascos);
+    this.cohete = new Cohete();
+    //this.add(this.cohete);
+    this.obj1 = new Objeto1();
+    this.add(this.obj1); 
   }
   
   createCamera () {
@@ -91,9 +70,9 @@ class MyScene extends THREE.Scene {
     //   El ángulo del campo de visión vértical en grados sexagesimales
     //   La razón de aspecto ancho/alto
     //   Los planos de recorte cercano y lejano
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10);
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     // También se indica dónde se coloca
-    this.camera.position.set (0.2, 0.05, 0.2);
+    this.camera.position.set (20, 10, 20);
     // Y hacia dónde mira
     var look = new THREE.Vector3 (0,0,0);
     this.camera.lookAt(look);
@@ -246,7 +225,9 @@ class MyScene extends THREE.Scene {
     this.cameraControl.update();
     
     // Se actualiza el resto del modelo
-    this.objetoBarrido.update();
+    this.tanque.update();
+    this.bomba.update();
+    this.cascos.update();
     
     // Este método debe ser llamado cada vez que queramos visualizar la escena de nuevo.
     // Literalmente le decimos al navegador: "La próxima vez que haya que refrescar la pantalla, llama al método que te indico".

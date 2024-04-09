@@ -5,11 +5,31 @@ class Barrido extends THREE.Object3D {
         super();
         this.shape = shape;
         this.path = path;
-        this.material = new THREE.MeshNormalMaterial();
         this.createGui(gui,guiTitle);
+
+        var shapeGeometry = new THREE.ShapeGeometry(this.shape);
+
+
+        this.material = new THREE.MeshNormalMaterial();
+        
+        var geometriaLinea = new THREE.BufferGeometry();
+        geometriaLinea.setFromPoints(this.path.getPoints(100));
+        var materialLinea = new THREE.LineBasicMaterial( { color : 0xff0000, linewidth : 5 } );
+        this.recorrido = new THREE.Line( geometriaLinea, materialLinea );
+
+
         this.barridoGeometria = this.createBarrido(this.shape);
         this.barrido = new THREE.Mesh(this.barridoGeometria, this.material);
+
+        this.barrido.position.x = 0.025;
+        this.barrido.position.z = 0.025;
+
+
+        this.shapeObject = new THREE.Mesh(shapeGeometry, this.material);
+        
         this.add(this.barrido);
+        this.add(this.recorrido);
+        this.add(this.shapeObject);
     }
 
     createBarrido(shape) {

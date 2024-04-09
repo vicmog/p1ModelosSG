@@ -54,7 +54,7 @@ class MyScene extends THREE.Scene {
 
   
     this.objCargado = new ModeloCargado('./../models/porsche911/911.mtl','./../models/porsche911/Porsche_911_GT2.obj');
-    this.add(this.objetoBarrido);
+    this.add (this.objCargado);
 
 
 
